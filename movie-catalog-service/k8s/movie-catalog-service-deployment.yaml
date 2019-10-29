@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movie-catalog-service-deployment
+  annotations:
+    author: DhiegoDuarte
+    email: dhiegoduarte@gmail.com
+    company: ClaroBR
+  labels:
+    application: movie-catalog-service
+    revision: TODO_COMO_COLOCAR_O_COMMIT_AQUI #4c511f16ef2644854d04cabebfcecc82be0eb04f
+    env: stage
+    version: "1.0.0"
+    owner: movies-squad
+    # app.kubernetes.io/name: my-pod
+    # app.kubernetes.io/instance: Auth-1a
+    # app.kubernetes.io/version: “2.0.1”
+    # app.kubernetes.io/component: Auth
+    # app.kubernetes.io/part-of: my-app
+    # app.kubernetes.io/managed-by: helm
+spec:
+  selector:
+    matchLabels:
+      component: movie-catalog-service-pod
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        component: movie-catalog-service-pod
+    spec:
+      serviceAccountName: movie-catalog-service-service-account
+      securityContext:
+        runAsNonRoot: true 
+        runAsUser: 1000 
+        runAsGroup: 3000 
+      containers:
+      - name: movie-catalog-service-container
+        # image: ${REPOSITORY_TAG} # TODO utilizado no pipeline do Jenkins criado por mim na AWS
+        # image: 52.14.127.219/movie-catalog-service/movie-catalog-service-image # TODO utilizado no pipeline do Jenkins da AWS Claro Br
+        # image: dhiegoduarte/movie-catalog-service-img # Após o apply executar kubectl set image com a ultima imagem gerada (ex no k8s-apply.sh)
+        image: harbor.claro.com.br/poc-arquitetura/movie-catalog-service-img # harbor.claro.com.br/movie-catalog-service/movie-catalog-service-img
+        securityContext: 
+          allowPrivilegeEscalation: false
+          # privileged: false (default)
+          # readOnlyRootFilesystem: true # TODO tomcat tenta criar /tmp Unable to start web server; nested exception is org.springframework.boot.web.server.WebServerException: Unable to create tempDir. java.io.tmpdir is set to /tmp
+          capabilities:
+            drop:
+            - ALL
+          #   add: 
+          #   - NET_BIND_SERVICE  # TODO permite portas < 1000 (80 e 443). MS POC configurados com 8081, 8082 e 8083
+        resources: # QoS Guaranteed limit e request iguais
+          limits:
+            cpu: 500m
+            memory: 300Mi 
+          requests:
+            cpu: 500m
+            memory: 300Mi 
+        livenessProbe:
+          httpGet:
+            path: /actuator
+            port: 8081
+          initialDelaySeconds: 60 
+          periodSeconds: 5 
+          timeoutSeconds: 30
+          failureThreshold: 5
+        readinessProbe:
+          httpGet:
+            path: /actuator/health # implementada validação das dependencias com outros MS
+            port: 8081
+          initialDelaySeconds: 5 
+          periodSeconds: 5   
+          timeoutSeconds: 30
+          failureThreshold: 5
+        env: 
+        - name: JAEGER_AGENT_HOST   # NOTE: Point to the Agent daemon on the Node
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: JAEGER_AGENT_PORT
+          valueFrom: 
+            configMapKeyRef: 
+              name: movie-catalog-service-config-map
+              key: jaeger-agent-port
+        - name: JAEGER_SERVICE_NAME
+          valueFrom: 
+            configMapKeyRef: 
+              name: movie-catalog-service-config-map
+              key: jaeger-service-name      
+        # - name: JAEGER_ENDPOINT
+        #   value: "http://claro-jaeger-collector:14268/api/traces"
+        volumeMounts:
+        - name: movie-catalog-service-config-map-volume
+          mountPath: "/home/poc_user/configs"
+        - name: movie-catalog-service-secret-volume
+          mountPath: "/home/poc_user/secrets"
+          readOnly: true
+      volumes:
+      - name: movie-catalog-service-config-map-volume
+        configMap:
+          name: movie-catalog-service-config-map
+      - name: movie-catalog-service-secret-volume
+        secret:
+          secretName: movie-catalog-service-secret

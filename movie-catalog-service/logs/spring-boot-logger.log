@@ -1,0 +1,136 @@
+2019-09-20 11:06:47,613 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [main] Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$ec514f3d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-09-20 11:06:48,479 WARN org.springframework.cloud.kubernetes.config.ConfigMapPropertySourceLocator [main] Configured input path: /home/poc_user/configs will be ignored because it does not exist on the file system
+2019-09-20 11:06:48,480 INFO org.springframework.cloud.bootstrap.config.PropertySourceBootstrapConfiguration [main] Located property source: CompositePropertySource {name='composite-configmap', propertySources=[ConfigMapPropertySource {name='configmap.movie-catalog-service-config-map.development'}]}
+2019-09-20 11:06:48,482 INFO org.springframework.cloud.bootstrap.config.PropertySourceBootstrapConfiguration [main] Located property source: SecretsPropertySource {name='secrets.movie-catalog-service-secret.development'}
+2019-09-20 11:06:48,521 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2019-09-20 11:06:49,608 INFO org.springframework.cloud.context.scope.GenericScope [main] BeanFactory id=48d27cf4-b142-334c-bdec-04e646d2289f
+2019-09-20 11:06:50,056 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [main] Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$ec514f3d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-09-20 11:06:52,058 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [main] Initializing ExecutorService 'applicationTaskExecutor'
+2019-09-20 11:06:53,560 INFO org.springframework.cloud.kubernetes.config.reload.EventBasedConfigurationChangeDetector [main] Added new Kubernetes watch: config-maps-watch
+2019-09-20 11:06:53,560 INFO org.springframework.cloud.kubernetes.config.reload.EventBasedConfigurationChangeDetector [main] Kubernetes event-based configuration change detector activated
+2019-09-20 11:06:53,633 INFO org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver [main] Exposing 28 endpoint(s) beneath base path '/actuator'
+2019-09-20 11:06:53,680 WARN org.springframework.cloud.kubernetes.config.ConfigMapPropertySourceLocator [OkHttp https://192.168.99.100:8443/...] Configured input path: /home/poc_user/configs will be ignored because it does not exist on the file system
+2019-09-20 11:06:53,790 INFO org.springframework.boot.StartupInfoLogger [main] Started MovieCatalogServiceApplicationTests in 8.27 seconds (JVM running for 8.995)
+2019-09-20 11:06:54,025 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [Thread-3] Shutting down ExecutorService 'applicationTaskExecutor'
+2019-09-20 11:43:41,902 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [main] Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$ec514f3d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-09-20 11:43:42,929 WARN org.springframework.cloud.kubernetes.config.ConfigMapPropertySourceLocator [main] Configured input path: /home/poc_user/configs will be ignored because it does not exist on the file system
+2019-09-20 11:43:42,930 INFO org.springframework.cloud.bootstrap.config.PropertySourceBootstrapConfiguration [main] Located property source: CompositePropertySource {name='composite-configmap', propertySources=[ConfigMapPropertySource {name='configmap.movie-catalog-service-config-map.development'}]}
+2019-09-20 11:43:42,933 INFO org.springframework.cloud.bootstrap.config.PropertySourceBootstrapConfiguration [main] Located property source: SecretsPropertySource {name='secrets.movie-catalog-service-secret.development'}
+2019-09-20 11:43:42,974 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2019-09-20 11:43:44,094 INFO org.springframework.cloud.context.scope.GenericScope [main] BeanFactory id=48d27cf4-b142-334c-bdec-04e646d2289f
+2019-09-20 11:43:44,676 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [main] Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$ec514f3d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-09-20 11:43:47,554 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [main] Initializing ExecutorService 'applicationTaskExecutor'
+2019-09-20 11:43:49,366 INFO org.springframework.cloud.kubernetes.config.reload.EventBasedConfigurationChangeDetector [main] Added new Kubernetes watch: config-maps-watch
+2019-09-20 11:43:49,367 INFO org.springframework.cloud.kubernetes.config.reload.EventBasedConfigurationChangeDetector [main] Kubernetes event-based configuration change detector activated
+2019-09-20 11:43:49,472 INFO org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver [main] Exposing 28 endpoint(s) beneath base path '/actuator'
+2019-09-20 11:43:49,478 WARN org.springframework.cloud.kubernetes.config.ConfigMapPropertySourceLocator [OkHttp https://192.168.99.100:8443/...] Configured input path: /home/poc_user/configs will be ignored because it does not exist on the file system
+2019-09-20 11:43:49,642 INFO org.springframework.boot.StartupInfoLogger [main] Started MovieCatalogServiceApplicationTests in 9.757 seconds (JVM running for 10.53)
+2019-09-20 11:43:49,967 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [Thread-3] Shutting down ExecutorService 'applicationTaskExecutor'
+2019-09-20 14:05:56,520 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [main] Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$d00020ec] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-09-20 14:05:57,551 WARN org.springframework.cloud.kubernetes.config.ConfigMapPropertySourceLocator [main] Configured input path: /home/poc_user/configs will be ignored because it does not exist on the file system
+2019-09-20 14:05:57,553 INFO org.springframework.cloud.bootstrap.config.PropertySourceBootstrapConfiguration [main] Located property source: CompositePropertySource {name='composite-configmap', propertySources=[ConfigMapPropertySource {name='configmap.movie-catalog-service-config-map.development'}]}
+2019-09-20 14:05:57,557 INFO org.springframework.cloud.bootstrap.config.PropertySourceBootstrapConfiguration [main] Located property source: SecretsPropertySource {name='secrets.movie-catalog-service-secret.development'}
+2019-09-20 14:05:57,612 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2019-09-20 14:05:58,699 INFO org.springframework.cloud.context.scope.GenericScope [main] BeanFactory id=48d27cf4-b142-334c-bdec-04e646d2289f
+2019-09-20 14:05:59,126 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [main] Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$d00020ec] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-09-20 14:06:01,303 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [main] Initializing ExecutorService 'applicationTaskExecutor'
+2019-09-20 14:06:02,813 INFO org.springframework.cloud.kubernetes.config.reload.EventBasedConfigurationChangeDetector [main] Added new Kubernetes watch: config-maps-watch
+2019-09-20 14:06:02,816 INFO org.springframework.cloud.kubernetes.config.reload.EventBasedConfigurationChangeDetector [main] Kubernetes event-based configuration change detector activated
+2019-09-20 14:06:02,896 INFO org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver [main] Exposing 2 endpoint(s) beneath base path '/actuator'
+2019-09-20 14:06:03,078 INFO org.springframework.boot.StartupInfoLogger [main] Started MovieCatalogServiceApplicationTests in 8.847 seconds (JVM running for 9.883)
+2019-09-20 14:06:03,435 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [Thread-3] Shutting down ExecutorService 'applicationTaskExecutor'
+2019-09-20 15:54:29,922 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [main] Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$aa613963] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-09-20 15:54:30,058 WARN org.springframework.cloud.kubernetes.KubernetesAutoConfiguration [main] No namespace has been detected. Please specify KUBERNETES_NAMESPACE env var, or use a later kubernetes version (1.3 or later)
+2019-09-20 15:54:30,668 WARN org.springframework.cloud.kubernetes.config.ConfigMapPropertySource [main] Can't read configMap with name: [movie-catalog-service-config-map] in namespace:[null]. Ignoring
+2019-09-20 15:54:30,672 WARN org.springframework.cloud.kubernetes.config.ConfigMapPropertySourceLocator [main] Configured input path: /home/poc_user/configs will be ignored because it does not exist on the file system
+2019-09-20 15:54:30,673 INFO org.springframework.cloud.bootstrap.config.PropertySourceBootstrapConfiguration [main] Located property source: CompositePropertySource {name='composite-configmap', propertySources=[ConfigMapPropertySource {name='configmap.movie-catalog-service-config-map.null'}]}
+2019-09-20 15:54:30,675 INFO org.springframework.cloud.bootstrap.config.PropertySourceBootstrapConfiguration [main] Located property source: SecretsPropertySource {name='secrets.movie-catalog-service-secret.null'}
+2019-09-20 15:54:30,784 INFO org.springframework.boot.SpringApplication [main] No active profile set, falling back to default profiles: default
+2019-09-20 15:54:31,987 INFO org.springframework.cloud.context.scope.GenericScope [main] BeanFactory id=48d27cf4-b142-334c-bdec-04e646d2289f
+2019-09-20 15:54:32,398 INFO org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker [main] Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$aa613963] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-09-20 15:54:34,266 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [main] Initializing ExecutorService 'applicationTaskExecutor'
+2019-09-20 15:54:35,518 WARN io.fabric8.kubernetes.client.dsl.internal.WatchConnectionManager$2 [OkHttp https://kubernetes.default.svc/...] Exec Failure
+java.net.UnknownHostException: kubernetes.default.svc
+	at java.net.InetAddress.getAllByName0(InetAddress.java:1281)
+	at java.net.InetAddress.getAllByName(InetAddress.java:1193)
+	at java.net.InetAddress.getAllByName(InetAddress.java:1127)
+	at okhttp3.Dns$1.lookup(Dns.java:39)
+	at okhttp3.internal.connection.RouteSelector.resetNextInetSocketAddress(RouteSelector.java:171)
+	at okhttp3.internal.connection.RouteSelector.nextProxy(RouteSelector.java:137)
+	at okhttp3.internal.connection.RouteSelector.next(RouteSelector.java:82)
+	at okhttp3.internal.connection.StreamAllocation.findConnection(StreamAllocation.java:171)
+	at okhttp3.internal.connection.StreamAllocation.findHealthyConnection(StreamAllocation.java:121)
+	at okhttp3.internal.connection.StreamAllocation.newStream(StreamAllocation.java:100)
+	at okhttp3.internal.connection.ConnectInterceptor.intercept(ConnectInterceptor.java:42)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:92)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:67)
+	at okhttp3.internal.cache.CacheInterceptor.intercept(CacheInterceptor.java:93)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:92)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:67)
+	at okhttp3.internal.http.BridgeInterceptor.intercept(BridgeInterceptor.java:93)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:92)
+	at okhttp3.internal.http.RetryAndFollowUpInterceptor.intercept(RetryAndFollowUpInterceptor.java:120)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:92)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:67)
+	at io.fabric8.kubernetes.client.utils.BackwardsCompatibilityInterceptor.intercept(BackwardsCompatibilityInterceptor.java:119)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:92)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:67)
+	at io.fabric8.kubernetes.client.utils.ImpersonatorInterceptor.intercept(ImpersonatorInterceptor.java:66)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:92)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:67)
+	at io.fabric8.kubernetes.client.utils.HttpClientUtils$2.intercept(HttpClientUtils.java:109)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:92)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:67)
+	at okhttp3.RealCall.getResponseWithInterceptorChain(RealCall.java:185)
+	at okhttp3.RealCall$AsyncCall.execute(RealCall.java:135)
+	at okhttp3.internal.NamedRunnable.run(NamedRunnable.java:32)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+2019-09-20 15:54:35,536 ERROR org.springframework.cloud.kubernetes.config.reload.EventBasedConfigurationChangeDetector [main] Error while establishing a connection to watch config maps: configuration may remain stale
+io.fabric8.kubernetes.client.KubernetesClientException: Failed to start websocket
+	at io.fabric8.kubernetes.client.dsl.internal.WatchConnectionManager$2.onFailure(WatchConnectionManager.java:204)
+	at okhttp3.internal.ws.RealWebSocket.failWebSocket(RealWebSocket.java:543)
+	at okhttp3.internal.ws.RealWebSocket$2.onFailure(RealWebSocket.java:208)
+	at okhttp3.RealCall$AsyncCall.execute(RealCall.java:148)
+	at okhttp3.internal.NamedRunnable.run(NamedRunnable.java:32)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.net.UnknownHostException: kubernetes.default.svc
+	at java.net.InetAddress.getAllByName0(InetAddress.java:1281)
+	at java.net.InetAddress.getAllByName(InetAddress.java:1193)
+	at java.net.InetAddress.getAllByName(InetAddress.java:1127)
+	at okhttp3.Dns$1.lookup(Dns.java:39)
+	at okhttp3.internal.connection.RouteSelector.resetNextInetSocketAddress(RouteSelector.java:171)
+	at okhttp3.internal.connection.RouteSelector.nextProxy(RouteSelector.java:137)
+	at okhttp3.internal.connection.RouteSelector.next(RouteSelector.java:82)
+	at okhttp3.internal.connection.StreamAllocation.findConnection(StreamAllocation.java:171)
+	at okhttp3.internal.connection.StreamAllocation.findHealthyConnection(StreamAllocation.java:121)
+	at okhttp3.internal.connection.StreamAllocation.newStream(StreamAllocation.java:100)
+	at okhttp3.internal.connection.ConnectInterceptor.intercept(ConnectInterceptor.java:42)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:92)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:67)
+	at okhttp3.internal.cache.CacheInterceptor.intercept(CacheInterceptor.java:93)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:92)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:67)
+	at okhttp3.internal.http.BridgeInterceptor.intercept(BridgeInterceptor.java:93)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:92)
+	at okhttp3.internal.http.RetryAndFollowUpInterceptor.intercept(RetryAndFollowUpInterceptor.java:120)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:92)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:67)
+	at io.fabric8.kubernetes.client.utils.BackwardsCompatibilityInterceptor.intercept(BackwardsCompatibilityInterceptor.java:119)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:92)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:67)
+	at io.fabric8.kubernetes.client.utils.ImpersonatorInterceptor.intercept(ImpersonatorInterceptor.java:66)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:92)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:67)
+	at io.fabric8.kubernetes.client.utils.HttpClientUtils$2.intercept(HttpClientUtils.java:109)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:92)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:67)
+	at okhttp3.RealCall.getResponseWithInterceptorChain(RealCall.java:185)
+	at okhttp3.RealCall$AsyncCall.execute(RealCall.java:135)
+	... 4 common frames omitted
+2019-09-20 15:54:35,638 INFO org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver [main] Exposing 2 endpoint(s) beneath base path '/actuator'
+2019-09-20 15:54:35,846 INFO org.springframework.boot.StartupInfoLogger [main] Started MovieCatalogServiceApplicationTests in 7.747 seconds (JVM running for 8.525)
+2019-09-20 15:54:36,076 INFO org.springframework.scheduling.concurrent.ExecutorConfigurationSupport [Thread-3] Shutting down ExecutorService 'applicationTaskExecutor'

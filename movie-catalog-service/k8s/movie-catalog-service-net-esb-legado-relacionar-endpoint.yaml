@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: net-esb-legado-relacionar # o nome deve ser igual ao nome do Service correspondente
+  annotations:
+    author: DhiegoDuarte
+    email: dhiegoduarte@gmail.com
+    company: ClaroBR
+  labels:
+    application: movie-catalog-service
+    revision: TODO_COMO_COLOCAR_O_COMMIT_AQUI #4c511f16ef2644854d04cabebfcecc82be0eb04f
+    env: stage
+    version: "1.0.0"
+    owner: movies-squad
+subsets:
+- addresses:
+  - ip: 10.28.28.64
+  # - ip: 216.58.202.164
+  # - ip: 216.58.202.131
+  ports:
+  - port: 6091
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: net-esb-legado-relacionar
+spec:
+  ports:
+    - port: 6091
+      targetPort: 6091

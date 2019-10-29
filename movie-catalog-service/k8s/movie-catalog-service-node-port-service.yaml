@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: movie-catalog-service-node-port-service
+  annotations:
+    author: DhiegoDuarte
+    email: dhiegoduarte@gmail.com
+    company: ClaroBR
+  labels:
+    application: movie-catalog-service
+    revision: TODO_COMO_COLOCAR_O_COMMIT_AQUI #4c511f16ef2644854d04cabebfcecc82be0eb04f
+    env: stage
+    version: "1.0.0"
+    owner: movies-squad
+spec:
+  selector:
+    component: movie-catalog-service-pod
+  ports: # Exposto http://192.168.99.100:30081/catalog/userid
+    - name: http
+      port: 8081 
+      nodePort: 30081
+  type: NodePort # exposto com nodeport somente para debug durante a fase de desenvolvimento. Esse service não é necessário em ambiente produtivo

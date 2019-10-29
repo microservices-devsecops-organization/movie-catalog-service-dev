@@ -1,0 +1,32 @@
+HELP.md
+movie-catalog-service/target
+!.mvn/wrapper/maven-wrapper.jar
+
+.metadata
+.mvn
+.DS_Store
+.idea
+.logs
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/build/

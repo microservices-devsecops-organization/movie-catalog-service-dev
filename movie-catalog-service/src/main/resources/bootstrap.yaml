@@ -1,0 +1,32 @@
+# application.yml/application.properties file is specific to Spring Boot applications. 
+# bootstrap.yml on the other hand is specific to spring-cloud-config and is loaded before the application.yml
+spring:
+  application.name: movie-catalog-service
+  cloud:
+    kubernetes:
+      config:
+        enabled: true
+        name: movie-catalog-service-config-map
+        paths: /home/poc_user/configs
+      reload:
+        # Enable live reload on ConfigMap change (disabled for Secrets by default)
+        enabled: true
+        strategy: restart-context
+        # refresh (default): only configuration beans annotated with @ConfigurationProperties or @RefreshScope are reloaded. This reload level leverages the refresh feature of Spring Cloud Context. 
+        # restart_context: the whole Spring ApplicationContext is gracefully restarted. Beans are recreated with the new configuration. 
+        # shutdown: the Spring ApplicationContext is shut down to activate a restart of the container. When using this level, make sure that the lifecycle of all non-daemon threads is bound to the ApplicationContext and that a replication controller or replica set is configured to restart the pod.
+      secrets:
+        enabled: true
+        name: movie-catalog-service-secret
+        paths: /home/poc_user/secrets
+        
+management.endpoint.restart.enabled: true       
+
+server:
+  port: 8081
+
+# logging.level.org.springframework.web: DEBUG  
+
+# From POD environment variables (não usar dessa forma, sempre utilizar k8s ConfigMap ou Secrets)  
+#code: ${DEMO_CODE}
+#message: ${DEMO_MESSAGE}
