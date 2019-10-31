@@ -1,5 +1,9 @@
 HELP.md
-movie-catalog-service/target
+
+target/
+logs/
+bin/
+
 !.mvn/wrapper/maven-wrapper.jar
 
 .metadata
