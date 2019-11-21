@@ -7,7 +7,7 @@ spring:
       config:
         enabled: true
         name: movie-catalog-service-config-map
-        paths: /home/poc_user/configs
+        paths: /home/movie-catalog-service-user/configs
       reload:
         # Enable live reload on ConfigMap change (disabled for Secrets by default)
         enabled: true
@@ -18,7 +18,7 @@ spring:
       secrets:
         enabled: true
         name: movie-catalog-service-secret
-        paths: /home/poc_user/secrets
+        paths: /home/movie-catalog-service-user/secrets
         
 management.endpoint.restart.enabled: true       
 

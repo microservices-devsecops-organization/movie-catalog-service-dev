@@ -90,9 +90,9 @@ spec:
         #   value: "http://claro-jaeger-collector:14268/api/traces"
         volumeMounts:
         - name: movie-catalog-service-config-map-volume
-          mountPath: "/home/poc_user/configs"
+          mountPath: "/home/movie-catalog-service-user/configs"
         - name: movie-catalog-service-secret-volume
-          mountPath: "/home/poc_user/secrets"
+          mountPath: "/home/movie-catalog-service-user/secrets"
           readOnly: true
       volumes:
       - name: movie-catalog-service-config-map-volume

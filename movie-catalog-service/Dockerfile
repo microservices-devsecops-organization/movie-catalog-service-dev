@@ -9,18 +9,18 @@ RUN apk --no-cache add -u musl=1.1.20-r5 \
     && apk --no-cache add -u libtasn1=4.14-r0 \
     && apk --no-cache add libjpeg-turbo=1.5.3-r5
 
-RUN addgroup -g 3000 poc_group
-RUN adduser -D -g '' -G poc_group -u 1000 poc_user
+RUN addgroup -g 3000 movie-catalog-service-group
+RUN adduser -D -g '' -G movie-catalog-service-group -u 1000 movie-catalog-service-user
 
-USER poc_user
-WORKDIR /home/poc_user
+USER movie-catalog-service-user
+WORKDIR /home/movie-catalog-service-user
 
 # For k8s ConfigMap and Secret
-RUN mkdir /home/poc_user/configs && mkdir /home/poc_user/secrets
+RUN mkdir /home/movie-catalog-service-user/configs && mkdir /home/movie-catalog-service-user/secrets
 
 # sempre alterar versao do jar. Se manter a mesma este layer da imagem docker nao sera atualizado, pegando o layer que ja esta em cache 
 # e o jar que foi atualizado nao sera copiado para o container
-COPY --chown=poc_user:poc_group target/movie-catalog-service-0.0.110-SNAPSHOT.jar /home/poc_user
+COPY --chown=movie-catalog-service-user:movie-catalog-service-group target/movie-catalog-service-0.0.110-SNAPSHOT.jar /home/movie-catalog-service-user
 
 EXPOSE 8081
 
