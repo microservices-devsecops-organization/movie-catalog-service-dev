@@ -11,6 +11,10 @@ public class RequestCorrelation {
 	private static final ThreadLocal<String> id = new ThreadLocal<String>();
 	
 	private static HttpHeaders headers = null;
+	
+	private RequestCorrelation() {
+		
+	}
 
     public static HttpHeaders getHeaders() {
 		return headers;
@@ -35,4 +39,8 @@ public class RequestCorrelation {
     public static String getId() {
         return id.get();
     }
+    
+    public static void unloadId() {
+    	id.remove(); 
+      }
 }

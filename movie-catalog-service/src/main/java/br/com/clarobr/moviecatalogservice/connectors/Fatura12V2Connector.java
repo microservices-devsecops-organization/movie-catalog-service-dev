@@ -22,7 +22,7 @@ public class Fatura12V2Connector {
 	@Autowired
     private RestTemplate restTemplate;
 	
-	Logger logger = LoggerFactory.getLogger(Fatura12V2Connector.class);
+	private Logger logger = LoggerFactory.getLogger(Fatura12V2Connector.class);
 	
 	private HttpEntity<String> addHttpHeaderBasicAuth(String username, String password) {
 		String plainCreds = username+":"+password;
@@ -42,7 +42,7 @@ public class Fatura12V2Connector {
 			// Comentado pois no ambiente local não existe este serviço. 			
 			restTemplate.exchange("http://net-esb-legado-relacionar:6091/relacionar/atendimento/fatura/Fatura12V2", HttpMethod.POST, 
 				this.addHttpHeaderBasicAuth(globalProperties.getUsername(), globalProperties.getPassword()), UserRating.class);
-		} catch (Throwable t) {
+		} catch (Exception t) {
 //			System.out.println("ERRO AO CHAMAR SERVIÇO OSB LEGADO");
 			//t.printStackTrace();
 //			System.out.println(t.getMessage());

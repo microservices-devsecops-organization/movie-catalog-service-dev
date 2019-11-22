@@ -6,9 +6,6 @@
     <appender name="Console"
         class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <!-- <Pattern>
-                %black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable
-            </Pattern>-->
             <Pattern>
             	%d{dd-MM-yyyy HH:mm:ss.SSS} %thread correlationId:%X{correlationId} [%-5level] %class{0} - %msg%n
             </Pattern>

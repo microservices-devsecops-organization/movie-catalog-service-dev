@@ -1,3 +1,4 @@
+---
 # application.yml/application.properties file is specific to Spring Boot applications. 
 # bootstrap.yml on the other hand is specific to spring-cloud-config and is loaded before the application.yml
 spring:
@@ -7,7 +8,7 @@ spring:
       config:
         enabled: true
         name: movie-catalog-service-config-map
-        paths: /home/movie-catalog-service-user/configs
+#        paths: /home/movie-catalog-service-user/configs #it is not necessary, it works just declaring the name
       reload:
         # Enable live reload on ConfigMap change (disabled for Secrets by default)
         enabled: true
@@ -18,7 +19,7 @@ spring:
       secrets:
         enabled: true
         name: movie-catalog-service-secret
-        paths: /home/movie-catalog-service-user/secrets
+#        paths: /home/movie-catalog-service-user/secrets #it is not necessary, it works just declaring the name
         
 management.endpoint.restart.enabled: true       
 

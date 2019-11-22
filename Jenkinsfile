@@ -14,15 +14,21 @@ pipeline {
     }
 
     environment {
+        pom = readMavenPom file: "${PROJECT_NAME}/pom.xml";
         PROJECT_NAME = 'movie-catalog-service'
-        NEXUS_REPOSITORY = "${PROJECT_NAME}" 
+
+        NEXUS_REPOSITORY = "ClaroBrasil/Microservices" 
         NEXUS_PROJECT_SOURCE = "${PROJECT_NAME}/target" 
-        NEXUS_FILE = "${NEXUS_PROJECT_SOURCE}/movie-catalog-service-0.0.110-SNAPSHOT.jar" 
+        NEXUS_FILE = "${NEXUS_PROJECT_SOURCE}/${PROJECT_NAME}-${pom.version}.${pom.packaging}"
+        
         HARBOR_PROJECT = "poc-arquitetura" //"${PROJECT_NAME}" 
         HARBOR_IMAGE = "${PROJECT_NAME}-img" 
+        
         SONAR_PROJECT_KEY = "${PROJECT_NAME}" 
         SONAR_PROJECT_NAME = "${PROJECT_NAME}" 
-        SONAR_PROJECT_SOURCE = "${NEXUS_PROJECT_SOURCE}" 
+        SONAR_PROJECT_BINARY = "${PROJECT_NAME}/target/classes"
+        SONAR_PROJECT_SOURCE = "${PROJECT_NAME}/src"
+
         POST_PROD_TIME = "3"
         POST_PROD_UNIT = "MINUTES" // SECONDS, MINUTES, HOURS
     }
@@ -54,6 +60,11 @@ pipeline {
         }
 
         stage("Repository Artifacts") {
+            when {
+                // only master/develop/release branches publishes to Nexus
+                // only master/develop/release branches publishes to Harbor
+                anyOf { branch 'develop'; branch 'release/*'; branch 'master' }
+            }
             parallel {
                 stage("Publish to Nexus") {
                     steps {
@@ -70,37 +81,81 @@ pipeline {
             }
         }
 
-        stage("Deploy") {
-            parallel {
-                stage('DEV') {
-                    steps {
-                        // IMPORT BY SHARED LIBRARY
-                        kubernetesDEVSharedLib()
-                    }
-                }
-
-                stage('QA') {
-                    steps {
-                        // IMPORT BY SHARED LIBRARY
-                        kubernetesQASharedLib()
-                    }
-                }
-
-                stage('PROD') {
-                    steps {
-                        // IMPORT BY SHARED LIBRARY
-                        kubernetesPRODSharedLib()
-                    }
-                }
+        stage('Deploy DEV') {   
+            when {
+                // only master/develop/release branches deploy to DEV
+                anyOf { branch 'develop'; branch 'release/*'; branch 'master' }
+            }
+            steps {
+                // IMPORT BY SHARED LIBRARY
+                kubernetesDEVSharedLib()
             }
         }
 
-        stage('Post-Prod') {
+        stage ('Intergation Tests') {
+            when {
+                // only master/develop/release branches goes throught Integration test
+                anyOf { branch 'develop'; branch 'release/*'; branch 'master' }
+            }
+            steps {
+                // IMPORT BY SHARED LIBRARY
+                integrationTestLib()
+            }
+        }
+
+        stage ('DAST and Penetration tests') {
+            when {
+                // only master/develop/release branches goes throught DAST /  Penetration test
+                anyOf { branch 'develop'; branch 'release/*'; branch 'master' }
+            }
+            steps {
+                // IMPORT BY SHARED LIBRARY
+                penetrationTestLib()
+            }
+        }
+
+        stage('Deploy QA') {
+            when {
+                // only master/release branches deploy to QA
+                anyOf { branch 'release/*'; branch 'master' }
+            }
+            steps {
+                // IMPORT BY SHARED LIBRARY
+                kubernetesQASharedLib()
+            }
+        }
+
+        stage ('Performance Tests') {
+            when {
+                // only master/release branches goes throught performance test
+                anyOf { branch 'release/*'; branch 'master' }
+            }
+            steps {
+                // IMPORT BY SHARED LIBRARY
+                performanceTestLib()
+            }
+        }
+
+        stage('Deploy PROD') {
+            when {
+                // only master branches deploy to PROD
+                branch 'master'
+            }
+            steps {
+                // IMPORT BY SHARED LIBRARY
+                kubernetesPRODSharedLib()
+            }
+        }
+
+        stage('Post PROD') {
+            when {
+                // only master branches undeploy from PROD
+                branch 'master'
+            }
             steps {
                 // IMPORT BY SHARED LIBRARY
                 rollbackLib()
             }
         }
-
     }
 }

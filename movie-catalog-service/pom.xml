@@ -7,12 +7,12 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<!-- <version>2.1.2.RELEASE</version> -->
-		<version>2.1.6.RELEASE</version>
+		<version>2.2.0.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.clarobr</groupId>
 	<artifactId>movie-catalog-service</artifactId>
-	<version>0.0.110-SNAPSHOT</version>
+	<version>0.0.001-SNAPSHOT</version>
 	<name>movie-catalog-service</name>
 	<description>Demo project for Spring Boot</description>
 
@@ -158,7 +158,7 @@
 		</dependency>
 		<!-- ******************************************************************************************************* -->
 
-		<!-- DevSecOps ******************************************************************************* -->
+		<!-- Unit Tests ****************************** -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
@@ -178,15 +178,20 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<!-- http://hamcrest.org/JavaHamcrest/tutorial -->
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-core</artifactId>
 			<!-- <version>${hamcrest.version}</version> -->
+			<scope>test</scope> 
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-junit-jupiter</artifactId>
 			<!-- <version>${mockito.version}</version> -->
+			<scope>test</scope> 
 		</dependency>
+		
+		
 		<!-- ******************************************************************************************************* -->
 	</dependencies>
 
@@ -242,12 +247,11 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<!-- Code coverage plugin. -->
-				<!-- This sets up code coverage for the unit tests, the integration tests, -->
-				<!-- and the combined coverage of both. -->
-				<!-- After running a `mvn clean install`, open `target/site/jacoco-both/index.html` 
-					in a browser. -->
+			<!-- Code coverage plugin. 
+			 This sets up code coverage for the unit tests, the integration tests, 
+			 and the combined coverage of both. 
+			 After running a `mvn clean install`, open `target/site/jacoco-both/index.html` in a browser. -->
+			 <plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco.plugin.version}</version>
@@ -280,8 +284,7 @@
 						</configuration>
 					</execution>
 					<execution>
-						<!-- Combine the code coverage statistics generated for the unit and 
-							the integration tests. -->
+						<!--  Combine the code coverage statistics generated for the unit and the integration tests. -->
 						<id>jacoco-merge</id>
 						<goals>
 							<goal>merge</goal>
@@ -317,7 +320,34 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- ******************************************************************************************************* -->
+			<!-- OWASP DEP CHECKER https://jeremylong.github.io/DependencyCheck/dependency-check-maven/ -->
+			<plugin>
+              <groupId>org.owasp</groupId>
+              <artifactId>dependency-check-maven</artifactId>
+              <version>5.2.2</version>
+              <dependencies>
+			      <dependency>
+					    <groupId>joda-time</groupId>
+					    <artifactId>joda-time</artifactId>
+					    <version>2.10.5</version>
+				  </dependency>
+         	  </dependencies>
+              <configuration>
+                  <failBuildOnCVSS>1</failBuildOnCVSS>
+                  <suppressionFiles>
+                        <suppressionFile>owasp-dependency-check-supression.xml</suppressionFile>
+                    </suppressionFiles>
+                   <formats>HTML,XML</formats> 
+              </configuration>
+              <executions>
+                  <execution>
+                      <goals>
+                          <goal>check</goal>
+                      </goals>
+                  </execution>
+              </executions>
+            </plugin>
+			<!--  ******************************************************************************************************* -->
 		</plugins>
 	</build>
 

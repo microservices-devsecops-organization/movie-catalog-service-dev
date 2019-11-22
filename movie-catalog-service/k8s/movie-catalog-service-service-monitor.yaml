@@ -2,18 +2,10 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: movie-catalog-service-service-monitor
-  annotations:
-    author: DhiegoDuarte
-    email: dhiegoduarte@gmail.com
-    company: ClaroBR
   labels:
-    application: movie-catalog-service
-    revision: TODO_COMO_COLOCAR_O_COMMIT_AQUI #4c511f16ef2644854d04cabebfcecc82be0eb04f
-    env: stage
-    version: "1.0.0"
-    owner: movies-squad
     app: movie-catalog-service-cluster-ip-service
-    release: claro-prometheus # mesmo nome utilizado na instalação do prometheus através do helm
+    # release deve ter o mesmo nome utilizado na instalação do prometheus através do helm. 
+    release: project-monitoring # Ambiente Claro #Ambiente AWS = claro-prometheus  
 spec:
   selector:
     matchLabels:

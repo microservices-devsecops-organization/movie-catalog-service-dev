@@ -7,7 +7,7 @@ import br.com.clarobr.moviecatalogservice.connectors.Fatura12V2Connector;
 @Service(value = "fatura12V2Service")
 public class Fatura12V2Service implements BusinessService  {
 
-	Fatura12V2Connector fatura12V2Connector;
+	private Fatura12V2Connector fatura12V2Connector;
 	
 	public Fatura12V2Service(Fatura12V2Connector fatura12V2Connector) {
 		this.fatura12V2Connector = fatura12V2Connector;

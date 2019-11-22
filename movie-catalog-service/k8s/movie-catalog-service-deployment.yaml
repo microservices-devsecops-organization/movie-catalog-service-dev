@@ -2,22 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: movie-catalog-service-deployment
-  annotations:
-    author: DhiegoDuarte
-    email: dhiegoduarte@gmail.com
-    company: ClaroBR
-  labels:
-    application: movie-catalog-service
-    revision: TODO_COMO_COLOCAR_O_COMMIT_AQUI #4c511f16ef2644854d04cabebfcecc82be0eb04f
-    env: stage
-    version: "1.0.0"
-    owner: movies-squad
-    # app.kubernetes.io/name: my-pod
-    # app.kubernetes.io/instance: Auth-1a
-    # app.kubernetes.io/version: “2.0.1”
-    # app.kubernetes.io/component: Auth
-    # app.kubernetes.io/part-of: my-app
-    # app.kubernetes.io/managed-by: helm
 spec:
   selector:
     matchLabels:
@@ -35,9 +19,7 @@ spec:
         runAsGroup: 3000 
       containers:
       - name: movie-catalog-service-container
-        # image: ${REPOSITORY_TAG} # TODO utilizado no pipeline do Jenkins criado por mim na AWS
-        # image: 52.14.127.219/movie-catalog-service/movie-catalog-service-image # TODO utilizado no pipeline do Jenkins da AWS Claro Br
-        # image: dhiegoduarte/movie-catalog-service-img # Após o apply executar kubectl set image com a ultima imagem gerada (ex no k8s-apply.sh)
+        # image: 52.14.127.219/movie-catalog-service/movie-catalog-service-image # utilizado no pipeline do Jenkins da AWS Claro Br
         image: harbor.claro.com.br/poc-arquitetura/movie-catalog-service-img # harbor.claro.com.br/movie-catalog-service/movie-catalog-service-img
         securityContext: 
           allowPrivilegeEscalation: false
@@ -59,18 +41,18 @@ spec:
           httpGet:
             path: /actuator
             port: 8081
-          initialDelaySeconds: 60 
-          periodSeconds: 5 
-          timeoutSeconds: 30
-          failureThreshold: 5
+          initialDelaySeconds: 120 
+          periodSeconds: 30 
+          timeoutSeconds: 360
+          failureThreshold: 50
         readinessProbe:
           httpGet:
             path: /actuator/health # implementada validação das dependencias com outros MS
             port: 8081
-          initialDelaySeconds: 5 
-          periodSeconds: 5   
-          timeoutSeconds: 30
-          failureThreshold: 5
+          initialDelaySeconds: 120 
+          periodSeconds: 30   
+          timeoutSeconds: 360
+          failureThreshold: 50
         env: 
         - name: JAEGER_AGENT_HOST   # NOTE: Point to the Agent daemon on the Node
           valueFrom:

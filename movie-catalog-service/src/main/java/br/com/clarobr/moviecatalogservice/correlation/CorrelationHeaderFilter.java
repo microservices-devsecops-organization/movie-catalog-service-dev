@@ -16,10 +16,9 @@ public class CorrelationHeaderFilter implements Filter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CorrelationHeaderFilter.class);
 
-
     public void init(FilterConfig filterConfig) throws ServletException {
+//    	Do nothing. Will be implemented in the future
     }
-
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
@@ -32,7 +31,11 @@ public class CorrelationHeaderFilter implements Filter {
             currentCorrId = UUID.randomUUID().toString();
             LOGGER.info("No correlationId found in Header. Generated : " + currentCorrId);
         } else {
-            LOGGER.info("Found correlationId in Header : " + currentCorrId);
+//        	Securiy risk. A malicious user could send the currentCorrId (RequestCorrelation.CORRELATION_ID_HEADER) parameter 
+//        	with the value: "Firefox) was authenticated successfully\r\n[INFO] User bbb (Internet Explorer".
+//        	Manually sanitize the parameter.
+//        	LOGGER.info("Found correlationId in Header : " + currentCorrId);
+            LOGGER.info("Found correlationId in Header : " + currentCorrId.replaceAll("[\r\n]","") );
         }
         MDC.put("correlationId", currentCorrId);
         RequestCorrelation.setId(currentCorrId);
@@ -41,14 +44,13 @@ public class CorrelationHeaderFilter implements Filter {
         filterChain.doFilter(httpServletRequest, servletResponse);
     }
 
-
     @Override
     public void destroy() {
     	MDC.remove("correlationId");
     }
     
-    private boolean currentRequestIsAsyncDispatcher(HttpServletRequest httpServletRequest) {
-        return httpServletRequest.getDispatcherType().equals(DispatcherType.ASYNC);
-    }
+//    private boolean currentRequestIsAsyncDispatcher(HttpServletRequest httpServletRequest) {
+//        return httpServletRequest.getDispatcherType().equals(DispatcherType.ASYNC);
+//    }
 
 }

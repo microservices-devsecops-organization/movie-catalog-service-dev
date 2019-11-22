@@ -11,6 +11,7 @@ public class MovieCatalogServiceApplicationIT {
 
 	@Test
 	public void contextLoads() {
+//		Do nothing. Will be implemented in the future 
 	}
 
 }

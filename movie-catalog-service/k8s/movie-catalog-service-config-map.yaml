@@ -2,19 +2,11 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: movie-catalog-service-config-map
-  annotations:
-    author: DhiegoDuarte
-    email: dhiegoduarte@gmail.com
-    company: ClaroBR
-  labels:
-    application: movie-catalog-service
-    revision: TODO_COMO_COLOCAR_O_COMMIT_AQUI #4c511f16ef2644854d04cabebfcecc82be0eb04f
-    env: stage
-    version: "1.0.0"
-    owner: movies-squad
 data:
   # Simulando uma conf para host de banco de dados
   db-host: database_hostname
+  username: username_test_only_poc_dont_use_this_way_must_use_secret
+  password: password_test_only_poc_dont_use_this_way_must_use_secret
 #   jaeger-agent-host: claro-jaeger-agent 
   jaeger-agent-port: '6831'
   jaeger-service-name: movie-catalog-service

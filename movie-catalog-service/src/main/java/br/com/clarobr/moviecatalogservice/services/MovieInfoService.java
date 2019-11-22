@@ -29,7 +29,7 @@ import io.vavr.control.Try;
 @Service(value = "movieInfoService")
 public class MovieInfoService  implements BusinessService  {
 
-	Logger logger = LoggerFactory.getLogger(MovieInfoService.class);
+	private Logger logger = LoggerFactory.getLogger(MovieInfoService.class);
 	
 	private final MovieInfoServiceConnector movieInfoServiceConnector; 
 	
@@ -42,11 +42,19 @@ public class MovieInfoService  implements BusinessService  {
 	private List<CatalogItem> list;
 	
 	public List<CatalogItem> getList() {
-		return list;
+		return new ArrayList<CatalogItem>(list);
+//		return list;
 	}
 
 	public void setList(List<CatalogItem> list) {
-		this.list = list;
+		if (list != null) {
+			List<CatalogItem> clone = new ArrayList<>(list); 
+			this.list = clone;
+//			this.list = list;
+		} else {
+			this.list = null;
+		}
+		
 	}
 		
 	public MovieInfoService(MovieInfoServiceConnector movieInfoServiceConnector, 
@@ -112,7 +120,8 @@ public class MovieInfoService  implements BusinessService  {
 	      Gson gson = new Gson();
 	      logger.info(gson.toJson(this.list));
 		
-	      return this.list;
+//	      return this.list;
+	      return this.getList();
 	}
 	
 	public void clearList() {

@@ -21,7 +21,7 @@ import io.vavr.control.Try;
 @Service(value = "ratingsDataService")
 public class RatingsDataService implements BusinessService  {
 	
-	Logger logger = LoggerFactory.getLogger(RatingsDataService.class);
+	private Logger logger = LoggerFactory.getLogger(RatingsDataService.class);
 	
 	private final RatingsDataServiceConnector ratingsDataServiceConnector; 
 	
@@ -72,10 +72,10 @@ public class RatingsDataService implements BusinessService  {
 		logger.error(writer.toString());
 
 		// Handle exception and invoke fallback
-		UserRating userRating = new UserRating();
-        userRating.initData("default");
+		UserRating userRatingLocal = new UserRating();
+		userRatingLocal.initData("default");
 
-        return userRating;
+        return userRatingLocal;
     }
 	
 	public void handleResponseUserRating(UserRating userRating) {

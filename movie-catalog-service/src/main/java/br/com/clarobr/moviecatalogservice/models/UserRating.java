@@ -1,6 +1,7 @@
 package br.com.clarobr.moviecatalogservice.models;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class UserRating {
@@ -17,11 +18,16 @@ public class UserRating {
     }
 
     public List<Rating> getRatings() {
-        return ratings;
+//      (squid:S2384) make a copy of the mutable object, and return the copy instead of the original.
+    	return new ArrayList<Rating>(ratings);
+//        return ratings;
     }
 
     public void setRatings(List<Rating> ratings) {
-        this.ratings = ratings;
+//    	(squid:S2384) make a copy of the mutable object, and return the copy instead of the original.
+    	List<Rating> clone = new ArrayList<>(ratings);
+        this.ratings = clone;
+//        this.ratings = ratings;
     }
     
     public void initData(String userId) {

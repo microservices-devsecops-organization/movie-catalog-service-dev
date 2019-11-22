@@ -14,7 +14,7 @@ import br.com.clarobr.moviecatalogservice.correlation.CorrelationHeaderFilter;
 public class MovieCatalogServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MovieCatalogServiceApplication.class, args);
+		SpringApplication.run(MovieCatalogServiceApplication.class, args); 
 	}
 
 	@Bean
