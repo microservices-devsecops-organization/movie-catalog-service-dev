@@ -5,8 +5,12 @@ metadata:
 data:
   # Simulando uma conf para host de banco de dados
   db-host: database_hostname
-  username: username_test_only_poc_dont_use_this_way_must_use_secret
-  password: password_test_only_poc_dont_use_this_way_must_use_secret
+  # hostname and port for ratings-data-service microservice
+  ratings-data-service-hostname: ratings-data-service-cluster-ip-service
+  ratings-data-service-port: '8083'
+  # hostname and port for movie-info-service microservice
+  movie-info-service-hostname: movie-info-service-cluster-ip-service
+  movie-info-service-port: '8082'
 #   jaeger-agent-host: claro-jaeger-agent 
   jaeger-agent-port: '6831'
   jaeger-service-name: movie-catalog-service

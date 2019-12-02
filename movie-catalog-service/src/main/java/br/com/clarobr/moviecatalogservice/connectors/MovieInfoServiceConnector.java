@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import br.com.clarobr.moviecatalogservice.GlobalProperties;
 import br.com.clarobr.moviecatalogservice.correlation.RequestCorrelation;
 import br.com.clarobr.moviecatalogservice.models.Movie;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
@@ -22,7 +23,10 @@ import io.github.resilience4j.retry.annotation.Retry;
 public class MovieInfoServiceConnector  implements Connector {
 	
 	@Autowired
-    private RestTemplate restTemplate;
+		private RestTemplate restTemplate;
+	
+	@Autowired
+	private GlobalProperties globalProperties;
 	
 	private String movieId;
 
@@ -36,7 +40,8 @@ public class MovieInfoServiceConnector  implements Connector {
 
 	public Movie requestMovieInfoService() {
 		if (!this.movieId.equalsIgnoreCase("exception")) {
-			ResponseEntity<Movie> movieresp = restTemplate.exchange("http://movie-info-service-cluster-ip-service:8082/movies/" + this.movieId, HttpMethod.GET, new HttpEntity<String>(RequestCorrelation.getHeaders()), Movie.class);
+			ResponseEntity<Movie> movieresp = restTemplate.exchange("http://"+globalProperties.getMovieInfoServiceHostname()+
+			":"+globalProperties.getMovieInfoServicePort()+"/movies/" + this.movieId, HttpMethod.GET, new HttpEntity<String>(RequestCorrelation.getHeaders()), Movie.class);
 			Movie movie = movieresp.getBody();
 			return movie;
 		} else {

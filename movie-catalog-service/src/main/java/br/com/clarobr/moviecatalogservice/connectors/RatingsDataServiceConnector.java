@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import br.com.clarobr.moviecatalogservice.GlobalProperties;
 import br.com.clarobr.moviecatalogservice.correlation.RequestCorrelation;
 import br.com.clarobr.moviecatalogservice.models.UserRating;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
@@ -22,7 +23,10 @@ import io.github.resilience4j.retry.annotation.Retry;
 public class RatingsDataServiceConnector implements Connector {
 	
 	@Autowired
-    private RestTemplate restTemplate;
+		private RestTemplate restTemplate;
+	
+	@Autowired
+	private GlobalProperties globalProperties;
 
 	private String userId;
 	
@@ -36,7 +40,8 @@ public class RatingsDataServiceConnector implements Connector {
 	
 	public UserRating requestRatingsDataService() {
 		if (!this.userId.equalsIgnoreCase("exception")) {
-			ResponseEntity<UserRating> userRatingresp = restTemplate.exchange("http://ratings-data-service-cluster-ip-service:8083/ratingsdata/user/" + this.userId, HttpMethod.GET, new HttpEntity<String>(RequestCorrelation.getHeaders()), UserRating.class);
+			ResponseEntity<UserRating> userRatingresp = restTemplate.exchange("http://"+globalProperties.getRatingsDataServiceHostname()+
+			":"+globalProperties.getRatingsDataServicePort()+"/ratingsdata/user/" + this.userId, HttpMethod.GET, new HttpEntity<String>(RequestCorrelation.getHeaders()), UserRating.class);
 			UserRating userRating = userRatingresp.getBody();
 			return userRating;
 			
