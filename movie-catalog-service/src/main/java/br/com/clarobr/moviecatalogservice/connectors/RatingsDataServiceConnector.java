@@ -23,10 +23,10 @@ import io.github.resilience4j.retry.annotation.Retry;
 public class RatingsDataServiceConnector implements Connector {
 	
 	@Autowired
-		private RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 	
 	@Autowired
-	private GlobalProperties globalProperties;
+    private GlobalProperties globalProperties;
 
 	private String userId;
 	
@@ -41,7 +41,8 @@ public class RatingsDataServiceConnector implements Connector {
 	public UserRating requestRatingsDataService() {
 		if (!this.userId.equalsIgnoreCase("exception")) {
 			ResponseEntity<UserRating> userRatingresp = restTemplate.exchange("http://"+globalProperties.getRatingsDataServiceHostname()+
-			":"+globalProperties.getRatingsDataServicePort()+"/ratingsdata/user/" + this.userId, HttpMethod.GET, new HttpEntity<String>(RequestCorrelation.getHeaders()), UserRating.class);
+					":"+globalProperties.getRatingsDataServicePort()+"/ratingsdata/user/" + this.userId, 
+					HttpMethod.GET, new HttpEntity<String>(RequestCorrelation.getHeaders()), UserRating.class);
 			UserRating userRating = userRatingresp.getBody();
 			return userRating;
 			

@@ -53,23 +53,6 @@ spec:
           periodSeconds: 30   
           timeoutSeconds: 360
           failureThreshold: 50
-        env: 
-        - name: JAEGER_AGENT_HOST   # NOTE: Point to the Agent daemon on the Node
-          valueFrom:
-            fieldRef:
-              fieldPath: status.hostIP
-        - name: JAEGER_AGENT_PORT
-          valueFrom: 
-            configMapKeyRef: 
-              name: movie-catalog-service-config-map
-              key: jaeger-agent-port
-        - name: JAEGER_SERVICE_NAME
-          valueFrom: 
-            configMapKeyRef: 
-              name: movie-catalog-service-config-map
-              key: jaeger-service-name      
-        # - name: JAEGER_ENDPOINT
-        #   value: "http://claro-jaeger-collector:14268/api/traces"
         volumeMounts:
         - name: movie-catalog-service-config-map-volume
           mountPath: "/home/movie-catalog-service-user/configs"

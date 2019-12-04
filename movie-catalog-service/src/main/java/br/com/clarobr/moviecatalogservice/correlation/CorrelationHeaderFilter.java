@@ -31,10 +31,6 @@ public class CorrelationHeaderFilter implements Filter {
             currentCorrId = UUID.randomUUID().toString();
             LOGGER.info("No correlationId found in Header. Generated : " + currentCorrId);
         } else {
-//        	Securiy risk. A malicious user could send the currentCorrId (RequestCorrelation.CORRELATION_ID_HEADER) parameter 
-//        	with the value: "Firefox) was authenticated successfully\r\n[INFO] User bbb (Internet Explorer".
-//        	Manually sanitize the parameter.
-//        	LOGGER.info("Found correlationId in Header : " + currentCorrId);
             LOGGER.info("Found correlationId in Header : " + currentCorrId.replaceAll("[\r\n]","") );
         }
         MDC.put("correlationId", currentCorrId);

@@ -52,6 +52,7 @@ public class RatingsDataService implements BusinessService  {
 			sub.onComplete();
 		}).doOnNext(c -> logger.info("ratings-data-service were retrieved successfully."))
 				.doOnError(e -> logger.error("An ERROR occurred while retrieving the ratings-data-service." + e));
+
 	  		
 		//síncrono
 		//obs.subscribe();
@@ -82,4 +83,5 @@ public class RatingsDataService implements BusinessService  {
 		movieInfoService.requestService(userRating);
 	}
 	
+
 }

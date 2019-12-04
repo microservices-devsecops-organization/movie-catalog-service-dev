@@ -39,7 +39,6 @@ public class Fatura12V2Connector {
 		logger.info("globalProperties: " + " " + globalProperties.getUsername()+ " " + globalProperties.getPassword()+ " " 
 				+ globalProperties.getDbHost());
 		try {
-			// Comentado pois no ambiente local não existe este serviço. 			
 			restTemplate.exchange("http://net-esb-legado-relacionar:6091/relacionar/atendimento/fatura/Fatura12V2", HttpMethod.POST, 
 				this.addHttpHeaderBasicAuth(globalProperties.getUsername(), globalProperties.getPassword()), UserRating.class);
 		} catch (Exception t) {
@@ -47,9 +46,7 @@ public class Fatura12V2Connector {
 			//t.printStackTrace();
 //			System.out.println(t.getMessage());
 			
-			
 			logger.error("Error: ", t);
-			
 			
 //			StringWriter writer = new StringWriter();
 //			PrintWriter printWriter= new PrintWriter(writer);

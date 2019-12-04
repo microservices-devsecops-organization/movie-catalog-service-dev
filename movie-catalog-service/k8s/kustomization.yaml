@@ -2,7 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonLabels:
   application: movie-catalog-service
-  revision: "${GIT_COMMIT_FORMATTED}" # replaced during jenkins pipeline
   env: ${KUBERNETES_CONTEXT} # replaced during jenkins pipeline
   version: "${POM_VERSION}" # replaced during jenkins pipeline
   owner: movies-squad
@@ -10,6 +9,7 @@ commonAnnotations:
   author: "Dhiego Duarte"
   email: "dhiego.duarte.terceiros@claro.com.br"
   company: "Claro BR"
+  revision: "${GIT_COMMIT_FORMATTED}" # replaced during jenkins pipeline 
 resources:
 - ./movie-catalog-service-cluster-ip-service.yaml
 - ./movie-catalog-service-load-balancer-service.yaml

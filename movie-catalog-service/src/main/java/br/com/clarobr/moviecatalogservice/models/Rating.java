@@ -3,6 +3,7 @@ package br.com.clarobr.moviecatalogservice.models;
 public class Rating {
 
     private String movieId;
+    
     private int rating;
 
     public Rating() {

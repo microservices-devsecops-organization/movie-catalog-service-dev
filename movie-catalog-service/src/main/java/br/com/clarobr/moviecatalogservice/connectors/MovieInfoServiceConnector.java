@@ -23,10 +23,10 @@ import io.github.resilience4j.retry.annotation.Retry;
 public class MovieInfoServiceConnector  implements Connector {
 	
 	@Autowired
-		private RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 	
 	@Autowired
-	private GlobalProperties globalProperties;
+    private GlobalProperties globalProperties;
 	
 	private String movieId;
 
@@ -41,7 +41,8 @@ public class MovieInfoServiceConnector  implements Connector {
 	public Movie requestMovieInfoService() {
 		if (!this.movieId.equalsIgnoreCase("exception")) {
 			ResponseEntity<Movie> movieresp = restTemplate.exchange("http://"+globalProperties.getMovieInfoServiceHostname()+
-			":"+globalProperties.getMovieInfoServicePort()+"/movies/" + this.movieId, HttpMethod.GET, new HttpEntity<String>(RequestCorrelation.getHeaders()), Movie.class);
+					":"+globalProperties.getMovieInfoServicePort()+"/movies/" + this.movieId, 
+					HttpMethod.GET, new HttpEntity<String>(RequestCorrelation.getHeaders()), Movie.class);
 			Movie movie = movieresp.getBody();
 			return movie;
 		} else {

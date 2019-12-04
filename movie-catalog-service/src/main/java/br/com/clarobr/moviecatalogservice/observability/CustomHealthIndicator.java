@@ -17,7 +17,7 @@ public class CustomHealthIndicator implements HealthIndicator {
     
     @Autowired
     private RestTemplate restTemplate;
-
+    
     @Autowired
     private GlobalProperties globalProperties;
     

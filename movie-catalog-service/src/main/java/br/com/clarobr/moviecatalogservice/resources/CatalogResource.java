@@ -13,15 +13,14 @@ import org.slf4j.LoggerFactory;
 import br.com.clarobr.moviecatalogservice.GlobalProperties;
 import br.com.clarobr.moviecatalogservice.correlation.RequestCorrelation;
 import br.com.clarobr.moviecatalogservice.services.Fatura12V2Service;
-import br.com.clarobr.moviecatalogservice.services.MovieInfoService;
-//import br.com.clarobr.moviecatalogservice.services.Fatura12V2Service;
+
 import br.com.clarobr.moviecatalogservice.services.RatingsDataService;
 
 @RestController
 @RequestMapping("/catalog") // same value must be defined in k8s ingress
 public class CatalogResource {
 	
-	private Logger logger = LoggerFactory.getLogger(MovieInfoService.class);
+	private Logger logger = LoggerFactory.getLogger(CatalogResource.class);
 	
     @Autowired
     private RatingsDataService ratingsDataService;
@@ -33,8 +32,7 @@ public class CatalogResource {
     private GlobalProperties globalProperties;
     
     @GetMapping("/{userId}")
-	public String getCatalog(@PathVariable("userId") String userId,
-			@RequestHeader HttpHeaders headers) {
+	public String getCatalog(@PathVariable("userId") String userId, @RequestHeader HttpHeaders headers) {
     	//TESTE de chamada a serviço legado, utilzação de basic authentication
 	  	//fatura12V2Service.requestFatura12V2();
 	
@@ -45,6 +43,6 @@ public class CatalogResource {
 		ratingsDataService.requestService(userId);
 
 		return "Requisição processada com sucesso!";
-	}
+	} 
 
 }

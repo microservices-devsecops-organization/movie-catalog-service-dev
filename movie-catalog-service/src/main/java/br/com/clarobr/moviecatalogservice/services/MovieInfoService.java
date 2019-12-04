@@ -43,18 +43,15 @@ public class MovieInfoService  implements BusinessService  {
 	
 	public List<CatalogItem> getList() {
 		return new ArrayList<CatalogItem>(list);
-//		return list;
 	}
 
 	public void setList(List<CatalogItem> list) {
 		if (list != null) {
 			List<CatalogItem> clone = new ArrayList<>(list); 
 			this.list = clone;
-//			this.list = list;
 		} else {
 			this.list = null;
 		}
-		
 	}
 		
 	public MovieInfoService(MovieInfoServiceConnector movieInfoServiceConnector, 
@@ -120,7 +117,6 @@ public class MovieInfoService  implements BusinessService  {
 	      Gson gson = new Gson();
 	      logger.info(gson.toJson(this.list));
 		
-//	      return this.list;
 	      return this.getList();
 	}
 	

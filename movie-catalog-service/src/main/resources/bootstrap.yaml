@@ -8,7 +8,6 @@ spring:
       config:
         enabled: true
         name: movie-catalog-service-config-map
-#        paths: /home/movie-catalog-service-user/configs #it is not necessary, it works just declaring the name
       reload:
         # Enable live reload on ConfigMap change (disabled for Secrets by default)
         enabled: true
@@ -19,14 +18,11 @@ spring:
       secrets:
         enabled: true
         name: movie-catalog-service-secret
-#        paths: /home/movie-catalog-service-user/secrets #it is not necessary, it works just declaring the name
         
 management.endpoint.restart.enabled: true       
 
 server:
   port: 8081
-
-# logging.level.org.springframework.web: DEBUG  
 
 # From POD environment variables (não usar dessa forma, sempre utilizar k8s ConfigMap ou Secrets)  
 #code: ${DEMO_CODE}

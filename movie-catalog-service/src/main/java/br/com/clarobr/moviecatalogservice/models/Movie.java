@@ -1,7 +1,9 @@
 package br.com.clarobr.moviecatalogservice.models;
 
 public class Movie {
+	
     private String movieId;
+    
     private String name;
 
     public Movie() {

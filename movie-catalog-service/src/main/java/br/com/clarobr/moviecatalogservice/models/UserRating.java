@@ -7,6 +7,7 @@ import java.util.Arrays;
 public class UserRating {
 
     private String userId;
+    
     private List<Rating> ratings;
 
     public String getUserId() {
@@ -18,16 +19,12 @@ public class UserRating {
     }
 
     public List<Rating> getRatings() {
-//      (squid:S2384) make a copy of the mutable object, and return the copy instead of the original.
     	return new ArrayList<Rating>(ratings);
-//        return ratings;
     }
 
     public void setRatings(List<Rating> ratings) {
-//    	(squid:S2384) make a copy of the mutable object, and return the copy instead of the original.
     	List<Rating> clone = new ArrayList<>(ratings);
         this.ratings = clone;
-//        this.ratings = ratings;
     }
     
     public void initData(String userId) {

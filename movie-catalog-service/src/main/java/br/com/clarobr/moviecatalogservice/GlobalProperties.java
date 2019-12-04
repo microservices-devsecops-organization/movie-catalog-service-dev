@@ -9,7 +9,7 @@ public class GlobalProperties {
 	
 	// From k8s ConfigMap
 	private String dbHost;
-
+	
 	// From k8s ConfigMap
 	private String ratingsDataServiceHostname;
 
@@ -27,7 +27,7 @@ public class GlobalProperties {
 	
 	// From k8s Secret
 	private String password;
-
+	
 	public String getRatingsDataServiceHostname() {
 		return ratingsDataServiceHostname;
 	}
@@ -59,7 +59,7 @@ public class GlobalProperties {
 	public void setMovieInfoServicePort(String movieInfoServicePort) {
 		this.movieInfoServicePort = movieInfoServicePort;
 	}
-	
+		
 	public String getDbHost() {
 		return dbHost;
 	}

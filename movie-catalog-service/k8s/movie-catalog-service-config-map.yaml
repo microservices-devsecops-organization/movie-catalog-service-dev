@@ -11,9 +11,6 @@ data:
   # hostname and port for movie-info-service microservice
   movie-info-service-hostname: movie-info-service-cluster-ip-service
   movie-info-service-port: '8082'
-#   jaeger-agent-host: claro-jaeger-agent 
-  jaeger-agent-port: '6831'
-  jaeger-service-name: movie-catalog-service
   application.yaml: |-
     # Actuator configurations https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready
     management.endpoints.web.exposure.include: '*'
