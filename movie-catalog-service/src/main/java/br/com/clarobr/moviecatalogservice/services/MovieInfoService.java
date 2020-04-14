@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
@@ -20,8 +21,6 @@ import br.com.clarobr.moviecatalogservice.models.Movie;
 import br.com.clarobr.moviecatalogservice.models.Rating;
 import br.com.clarobr.moviecatalogservice.models.UserRating;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
-import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
-import io.github.resilience4j.circuitbreaker.autoconfigure.CircuitBreakerProperties;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import io.vavr.control.Try;
@@ -31,13 +30,15 @@ public class MovieInfoService  implements BusinessService  {
 
 	private Logger logger = LoggerFactory.getLogger(MovieInfoService.class);
 	
-	private final MovieInfoServiceConnector movieInfoServiceConnector; 
+	@Autowired
+	private MovieInfoServiceConnector movieInfoServiceConnector; 
 	
-	private final CircuitBreaker circuitBreaker;
+	@Autowired
+	private MovieCatalogServiceSidecarFaturaService movieCatalogServiceSidecarFaturaService;
+	
+	private final CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults("movie-info-service-circuitbreaker");
 	
 	private Movie movie;
-	
-	private UserRating userRating;
 		
 	private List<CatalogItem> list;
 	
@@ -54,23 +55,13 @@ public class MovieInfoService  implements BusinessService  {
 		}
 	}
 		
-	public MovieInfoService(MovieInfoServiceConnector movieInfoServiceConnector, 
-			CircuitBreakerRegistry circuitBreakerRegistry, CircuitBreakerProperties circuitBreakerProperties) {
-		this.movieInfoServiceConnector = movieInfoServiceConnector;
-		this.circuitBreaker = circuitBreakerRegistry.circuitBreaker("movie-info-service-circuitbreaker", 
-				() -> circuitBreakerProperties.createCircuitBreakerConfig("movie-info-service-circuitbreaker"));
-	}
-	
 	// There are two key types to understand when working with Rx:
 	// Observable represents any object that can get data from a data source and whose state may be of interest in a way that other objects may register an interest
 	// An observer is any object that wishes to be notified when the state of another object changes
-	public void requestService(UserRating userRating) {
-	  	this.userRating = userRating;
-	  	
+	public void requestService(UserRating userRating, String correlationid) {
 		for (Rating item: userRating.getRatings()) {
-			movieInfoServiceConnector.setMovieId(item.getMovieId());
 			Observable<Movie> obs = Observable.<Movie>create(sub -> {
-				movie = this.requestServiceCircuitBreaker();
+				movie = this.requestServiceCircuitBreaker(item.getMovieId(), correlationid);
 				sub.onNext(movie);
 				sub.onComplete();
 			}).doOnNext(c -> logger.info("movie-info-service were retrieved successfully."))
@@ -79,12 +70,12 @@ public class MovieInfoService  implements BusinessService  {
 			//síncrono
 			//obs.subscribe();
 			//assincrono
-			obs.subscribeOn(Schedulers.io()).observeOn(Schedulers.single()).subscribe(this::handleResponseMovie, Throwable::printStackTrace);
+			obs.subscribeOn(Schedulers.io()).observeOn(Schedulers.single()).subscribe((movieReturned) -> this.handleResponseMovie(movieReturned, userRating, correlationid), Throwable::printStackTrace);
 		}
 	}
 		
-	public Movie requestServiceCircuitBreaker() {
-		Supplier<Movie> backendFunction = CircuitBreaker.decorateSupplier(circuitBreaker, movieInfoServiceConnector::requestMovieInfoService);
+	public Movie requestServiceCircuitBreaker(String movieId, String correlationid) {
+		Supplier<Movie> backendFunction = CircuitBreaker.decorateSupplier(circuitBreaker, () -> movieInfoServiceConnector.requestMovieInfoService(movieId, correlationid) );
 		return Try.ofSupplier(backendFunction).recover(this::recovery).get();
 	}
 	
@@ -98,7 +89,7 @@ public class MovieInfoService  implements BusinessService  {
 		return new Movie("default", "Name for movie ID " + "default");
     }
 	
-	public List<CatalogItem> handleResponseMovie(Movie movie) {
+	public List<CatalogItem> handleResponseMovie(Movie movie, UserRating userRating, String correlationid) {
 		// Descobrindo o indice do rating do movie informado
 	      int position = IntStream.range(0, userRating.getRatings().size())
 			.filter(i -> movie.getMovieId().equals(userRating.getRatings().get(i).getMovieId()))
@@ -106,7 +97,7 @@ public class MovieInfoService  implements BusinessService  {
 			.orElse(-1);	
 	      
 	      CatalogItem item = new CatalogItem(movie.getName().concat(" and user "+ userRating.getUserId()), 
-	    		  "Description", userRating.getRatings().get(position).getRating());
+	    		  "Description", userRating.getRatings().get(position).getRating()); 
 	      
 	      if (this.list == null || this.list.isEmpty()) {
 	    	  this.list = new ArrayList<CatalogItem>(Arrays.asList(item));
@@ -116,6 +107,8 @@ public class MovieInfoService  implements BusinessService  {
 
 	      Gson gson = new Gson();
 	      logger.info(gson.toJson(this.list));
+	      
+	      movieCatalogServiceSidecarFaturaService.requestService(userRating.getUserId(), correlationid);
 		
 	      return this.getList();
 	}

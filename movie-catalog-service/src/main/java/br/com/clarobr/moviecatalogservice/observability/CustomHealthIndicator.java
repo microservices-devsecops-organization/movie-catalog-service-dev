@@ -12,7 +12,7 @@ import br.com.clarobr.moviecatalogservice.models.UserRating;
 
 @Component
 public class CustomHealthIndicator implements HealthIndicator {
-
+	
     private boolean isHealthy = false;
     
     @Autowired

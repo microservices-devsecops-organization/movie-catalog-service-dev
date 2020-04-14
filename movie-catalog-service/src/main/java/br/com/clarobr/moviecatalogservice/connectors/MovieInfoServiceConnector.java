@@ -1,7 +1,8 @@
 package br.com.clarobr.moviecatalogservice.connectors;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,29 +21,22 @@ import io.github.resilience4j.retry.annotation.Retry;
 @Retry(name = "movie-info-service-retry")
 @Bulkhead(name = "movie-info-service-bulkhead")
 @Component(value = "movieInfoServiceConnector")
-public class MovieInfoServiceConnector  implements Connector {
+public class MovieInfoServiceConnector  extends Connector {
 	
 	@Autowired
     private RestTemplate restTemplate;
 	
 	@Autowired
     private GlobalProperties globalProperties;
-	
-	private String movieId;
 
-	public String getMovieId() {
-		return movieId;
-	}
-
-	public void setMovieId(String movieId) {
-		this.movieId = movieId;
-	}
-
-	public Movie requestMovieInfoService() {
-		if (!this.movieId.equalsIgnoreCase("exception")) {
+	public Movie requestMovieInfoService(String movieId, String correlationid) {
+		if (!movieId.equalsIgnoreCase("exception")) {
+			HashMap<String, String> headers = new HashMap<String, String>();
+			headers.put(RequestCorrelation.CORRELATION_ID_HEADER, correlationid);
+			
 			ResponseEntity<Movie> movieresp = restTemplate.exchange("http://"+globalProperties.getMovieInfoServiceHostname()+
-					":"+globalProperties.getMovieInfoServicePort()+"/movies/" + this.movieId, 
-					HttpMethod.GET, new HttpEntity<String>(RequestCorrelation.getHeaders()), Movie.class);
+					":"+globalProperties.getMovieInfoServicePort()+"/movies/" + movieId, 
+					HttpMethod.GET, this.addHttpHeaders(headers), Movie.class);
 			Movie movie = movieresp.getBody();
 			return movie;
 		} else {

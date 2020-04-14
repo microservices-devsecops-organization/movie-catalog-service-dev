@@ -1,5 +1,7 @@
 HELP.md
 
+.attach_pid*
+
 target/
 logs/
 bin/
@@ -16,7 +18,6 @@ bin/
 .apt_generated
 .classpath
 .factorypath
-.project
 .settings
 .springBeans
 .sts4-cache

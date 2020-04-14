@@ -5,10 +5,9 @@ metadata:
 subsets:
 - addresses:
   - ip: 10.28.28.64
-  # - ip: 216.58.202.164
-  # - ip: 216.58.202.131
   ports:
   - port: 6091
+    name: "net-esb-legado-relacionar"
 
 ---
 kind: Service
@@ -16,6 +15,11 @@ apiVersion: v1
 metadata:
   name: net-esb-legado-relacionar
 spec:
+  # type: ClusterIP
+  clusterIP: None
   ports:
     - port: 6091
       targetPort: 6091
+      protocol: "TCP"
+      name: "net-esb-legado-relacionar"
+  # publishNotReadyAddresses: true

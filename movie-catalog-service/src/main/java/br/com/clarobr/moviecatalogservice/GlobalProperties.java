@@ -22,11 +22,11 @@ public class GlobalProperties {
 	// From k8s ConfigMap
 	private String movieInfoServicePort;
 	
-	// From k8s Secret 	
-	private String username;
+	// From k8s ConfigMap
+	private String movieCatalogServiceSidecarFaturaHostname;
 	
-	// From k8s Secret
-	private String password;
+	// From k8s ConfigMap
+	private String movieCatalogServiceSidecarFaturaPort;
 	
 	public String getRatingsDataServiceHostname() {
 		return ratingsDataServiceHostname;
@@ -68,20 +68,20 @@ public class GlobalProperties {
 		this.dbHost = dbHost;
 	}
 	
-	public String getUsername() {
-		return username;
+	public String getMovieCatalogServiceSidecarFaturaPort() {
+		return movieCatalogServiceSidecarFaturaPort;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setMovieCatalogServiceSidecarFaturaPort(String movieCatalogServiceSidecarFaturaPort) {
+		this.movieCatalogServiceSidecarFaturaPort = movieCatalogServiceSidecarFaturaPort;
+	}
+	
+	public String getMovieCatalogServiceSidecarFaturaHostname() {
+		return movieCatalogServiceSidecarFaturaHostname;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setMovieCatalogServiceSidecarFaturaHostname(String movieCatalogServiceSidecarFaturaHostname) {
+		this.movieCatalogServiceSidecarFaturaHostname = movieCatalogServiceSidecarFaturaHostname;
 	}
 	
 }

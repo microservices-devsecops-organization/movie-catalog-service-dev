@@ -13,7 +13,7 @@ import java.util.UUID;
  * CorrelationHeaderFilter
  */
 public class CorrelationHeaderFilter implements Filter {
-
+	
     private static final Logger LOGGER = LoggerFactory.getLogger(CorrelationHeaderFilter.class);
 
     public void init(FilterConfig filterConfig) throws ServletException {

@@ -1,7 +1,8 @@
 package br.com.clarobr.moviecatalogservice.connectors;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,29 +21,22 @@ import io.github.resilience4j.retry.annotation.Retry;
 @Retry(name = "ratings-data-service-retry")
 @Bulkhead(name = "ratings-data-service-bulkhead")
 @Component(value = "ratingsDataServiceConnector")
-public class RatingsDataServiceConnector implements Connector {
+public class RatingsDataServiceConnector extends Connector {
 	
 	@Autowired
     private RestTemplate restTemplate;
 	
 	@Autowired
     private GlobalProperties globalProperties;
-
-	private String userId;
 	
-	public String getUserId() {
-		return userId;
-	}
-	
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	
-	public UserRating requestRatingsDataService() {
-		if (!this.userId.equalsIgnoreCase("exception")) {
+	public UserRating requestRatingsDataService(String userId, String correlationid) {
+		if (!userId.equalsIgnoreCase("exception")) {
+			HashMap<String, String> headers = new HashMap<String, String>();
+			headers.put(RequestCorrelation.CORRELATION_ID_HEADER, correlationid);
+			
 			ResponseEntity<UserRating> userRatingresp = restTemplate.exchange("http://"+globalProperties.getRatingsDataServiceHostname()+
-					":"+globalProperties.getRatingsDataServicePort()+"/ratingsdata/user/" + this.userId, 
-					HttpMethod.GET, new HttpEntity<String>(RequestCorrelation.getHeaders()), UserRating.class);
+					":"+globalProperties.getRatingsDataServicePort()+"/ratingsdata/user/" + userId, 
+					HttpMethod.GET, this.addHttpHeaders(headers), UserRating.class);
 			UserRating userRating = userRatingresp.getBody();
 			return userRating;
 			
@@ -50,6 +44,7 @@ public class RatingsDataServiceConnector implements Connector {
 			// Simulando erro para testar retry e recovery
 			throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, "This is a remote exception test for recovery and retry of circuit breaker!");
 		}
+		
 	}
 	
 }

@@ -13,8 +13,8 @@ public class RequestCorrelation {
 	private static HttpHeaders headers = null;
 	
 	private RequestCorrelation() {
-		
-	}
+	    throw new IllegalStateException("Utility class");
+	  }
 
     public static HttpHeaders getHeaders() {
 		return headers;

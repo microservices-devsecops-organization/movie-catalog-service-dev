@@ -1,0 +1,15 @@
+# somente por causa do prometheus
+apiVersion: v1
+kind: Service
+metadata:
+  name: movie-catalog-service-sidecar-fatura-cluster-ip-service
+  labels:
+    app: movie-catalog-service-sidecar-fatura-cluster-ip-service # for prometheus service monitor
+spec:
+  selector:
+    component: movie-catalog-service-pod
+  ports:
+    - name: http
+      port: 8084
+      # targetPort: 8084
+  type: ClusterIP

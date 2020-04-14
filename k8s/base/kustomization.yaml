@@ -1,0 +1,31 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  application: movie-catalog-service
+  env: ${KUBERNETES_CONTEXT} # replaced during jenkins pipeline
+  owner: movies-squad
+commonAnnotations:
+  author: "Dhiego Duarte"
+  email: "dhiego.duarte.terceiros@claro.com.br"
+  company: "Claro BR"
+  revision: "${GIT_COMMIT_FORMATTED}" # replaced during jenkins pipeline 
+  version: ${POM_VERSION} # replaced during jenkins pipeline
+images:
+  - name: harbor.claro.com.br/poc-arquitetura/movie-catalog-service-img
+    newName: "${DEPLOY_IMAGE_MOVIE_CATALOG_SERVICE}" # this name pattern must be respected. replaced during jenkins pipeline 
+    newTag: "${DEPLOY_IMAGE_TAG}" # replaced during jenkins pipeline 
+  - name: harbor.claro.com.br/poc-arquitetura/movie-catalog-service-sidecar-fatura-img
+    newName: "${DEPLOY_IMAGE_MOVIE_CATALOG_SERVICE_SIDECAR_FATURA}" # this name pattern must be respected. replaced during jenkins pipeline
+    newTag: "${DEPLOY_IMAGE_TAG}" # replaced during jenkins pipeline 
+resources:
+- ./movie-catalog-service-cluster-ip-service.yaml
+- ./movie-catalog-service-config-map.yaml
+- ./movie-catalog-service-deployment.yaml
+- ./movie-catalog-service-ingress.yaml
+- ./movie-catalog-service-secret.yaml
+- ./movie-catalog-service-service-account.yaml
+- ./movie-catalog-service-service-monitor.yaml
+- ./movie-catalog-service-sidecar-fatura-cluster-ip-service.yaml
+- ./movie-catalog-service-sidecar-fatura-config-map.yaml
+- ./movie-catalog-service-sidecar-fatura-secret.yaml
+- ./movie-catalog-service-sidecar-fatura-service-monitor.yaml

@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: movie-catalog-service-sidecar-fatura-service-monitor
+  labels:
+    app: movie-catalog-service-sidecar-fatura-cluster-ip-service
+    # release deve ter o mesmo nome utilizado na instalação do prometheus através do helm. 
+    release: monitoring # Ambiente Claro #Ambiente AWS = claro-prometheus  
+spec:
+  selector:
+    matchLabels:
+      app: movie-catalog-service-sidecar-fatura-cluster-ip-service
+  namespaceSelector:
+    any: true
+  endpoints:
+  - port: http
+    path: /movie-catalog-service-sidecar-fatura/actuator/prometheus
+    interval: 10s

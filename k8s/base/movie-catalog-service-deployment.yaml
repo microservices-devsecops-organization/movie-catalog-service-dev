@@ -1,0 +1,117 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movie-catalog-service-deployment
+spec:
+  selector:
+    matchLabels:
+      component: movie-catalog-service-pod
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        component: movie-catalog-service-pod
+    spec:
+      serviceAccountName: movie-catalog-service-service-account
+      securityContext:
+        runAsNonRoot: true 
+        runAsUser: 1000 
+        runAsGroup: 3000 
+      containers:
+      - name: movie-catalog-service-container
+        # image: 52.14.127.219/movie-catalog-service/movie-catalog-service-image # utilizado no pipeline do Jenkins da AWS Claro Br
+        image: harbor.claro.com.br/poc-arquitetura/movie-catalog-service-img # harbor.claro.com.br/movie-catalog-service/movie-catalog-service-img
+        # image: dhiegoduarte/movie-catalog-service-img
+        securityContext: 
+          allowPrivilegeEscalation: false
+          # privileged: false (default)
+          # readOnlyRootFilesystem: true # tomcat tenta criar /tmp Unable to start web server; nested exception is org.springframework.boot.web.server.WebServerException: Unable to create tempDir. java.io.tmpdir is set to /tmp
+          capabilities:
+            drop:
+            - ALL
+          #   add: 
+          #   - NET_BIND_SERVICE  # permite portas < 1000 (80 e 443). MS POC configurados com 8081, 8082 e 8083
+        resources: # QoS Guaranteed limit e request iguais
+          limits:
+            cpu: 500m
+            memory: 300Mi 
+          requests:
+            cpu: 500m
+            memory: 300Mi 
+        livenessProbe:
+          httpGet:
+            path: /movie-catalog-service/actuator
+            port: 8081
+          initialDelaySeconds: 120 
+          periodSeconds: 30 
+          timeoutSeconds: 360
+          failureThreshold: 10
+        readinessProbe:
+          httpGet:
+            path: /movie-catalog-service/actuator/health # implementada validação das dependencias com outros MS
+            port: 8081
+          initialDelaySeconds: 120 
+          periodSeconds: 30   
+          timeoutSeconds: 360
+          failureThreshold: 10
+        volumeMounts:
+        - name: movie-catalog-service-config-map-volume
+          mountPath: "/home/movie-catalog-service-user/configs"
+        - name: movie-catalog-service-secret-volume
+          mountPath: "/home/movie-catalog-service-user/secrets"
+          readOnly: true
+      - name: movie-catalog-service-sidecar-fatura-container
+        # image: 52.14.127.219/movie-catalog-service/movie-catalog-service-image # utilizado no pipeline do Jenkins da AWS Claro Br
+        image: harbor.claro.com.br/poc-arquitetura/movie-catalog-service-sidecar-fatura-img # harbor.claro.com.br/movie-catalog-service-sidecar-fatura/movie-catalog-service-img
+        # image: dhiegoduarte/movie-catalog-service-sidecar-fatura-img
+        securityContext: 
+          allowPrivilegeEscalation: false
+          # privileged: false (default)
+          # readOnlyRootFilesystem: true # tomcat tenta criar /tmp Unable to start web server; nested exception is org.springframework.boot.web.server.WebServerException: Unable to create tempDir. java.io.tmpdir is set to /tmp
+          capabilities:
+            drop:
+            - ALL
+          #   add: 
+          #   - NET_BIND_SERVICE  # permite portas < 1000 (80 e 443). MS POC configurados com 8081, 8082 e 8083
+        resources: # QoS Guaranteed limit e request iguais
+          limits:
+            cpu: 500m
+            memory: 300Mi 
+          requests:
+            cpu: 500m
+            memory: 300Mi 
+        livenessProbe:
+          httpGet:
+            path: /movie-catalog-service-sidecar-fatura/actuator
+            port: 8084
+          initialDelaySeconds: 120 
+          periodSeconds: 30 
+          timeoutSeconds: 360
+          failureThreshold: 10
+        readinessProbe:
+          httpGet:
+            path: /movie-catalog-service-sidecar-fatura/actuator/health # implementada validação das dependencias com outros MS
+            port: 8084
+          initialDelaySeconds: 120 
+          periodSeconds: 30   
+          timeoutSeconds: 360
+          failureThreshold: 10 
+        volumeMounts:
+        - name: movie-catalog-service-sidecar-fatura-config-map-volume
+          mountPath: "/home/movie-catalog-service-sidecar-fatura-user/configs"
+        - name: movie-catalog-service-sidecar-fatura-secret-volume
+          mountPath: "/home/movie-catalog-service-sidecar-fatura-user/secrets"
+          readOnly: true
+      volumes:
+      - name: movie-catalog-service-config-map-volume
+        configMap:
+          name: movie-catalog-service-config-map
+      - name: movie-catalog-service-secret-volume
+        secret:
+          secretName: movie-catalog-service-secret
+      - name: movie-catalog-service-sidecar-fatura-config-map-volume
+        configMap:
+          name: movie-catalog-service-sidecar-fatura-config-map
+      - name: movie-catalog-service-sidecar-fatura-secret-volume
+        secret:
+          secretName: movie-catalog-service-sidecar-fatura-secret    

@@ -24,7 +24,7 @@ public class MovieCatalogServiceApplication {
 	
 	@Bean
     public FilterRegistrationBean<CorrelationHeaderFilter> correlationHeaderFilter() {
-        FilterRegistrationBean<CorrelationHeaderFilter> filterRegBean = new FilterRegistrationBean<CorrelationHeaderFilter>();
+		FilterRegistrationBean<CorrelationHeaderFilter> filterRegBean = new FilterRegistrationBean<CorrelationHeaderFilter>();
         filterRegBean.setFilter(new CorrelationHeaderFilter());
         filterRegBean.setUrlPatterns(Arrays.asList("/*"));
         return filterRegBean;

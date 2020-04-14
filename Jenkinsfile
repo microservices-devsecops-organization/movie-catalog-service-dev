@@ -1,3 +1,11 @@
+// ===============================================================================================================
+// If the project doesn't use sidecar, all stages/steps and variables declaration for this purpose must be removed
+// If the project uses more than one sidecar, then, a new stage/step and variable declaration for this sidecar must be added 
+// ===============================================================================================================
+def PRINCIPAL_PROJECT = 'movie-catalog-service'
+def SIDECAR_PROJECT = 'movie-catalog-service-sidecar-fatura'
+def PROJECTS = [PRINCIPAL_PROJECT,SIDECAR_PROJECT]
+
 pipeline {
 
     // agent any
@@ -14,21 +22,8 @@ pipeline {
     }
 
     environment {
-        pom = readMavenPom file: "${PROJECT_NAME}/pom.xml";
-        PROJECT_NAME = 'movie-catalog-service'
-
-        NEXUS_REPOSITORY = "ClaroBrasil/Microservices" 
-        NEXUS_PROJECT_SOURCE = "${PROJECT_NAME}/target" 
-        NEXUS_FILE = "${NEXUS_PROJECT_SOURCE}/${PROJECT_NAME}-${pom.version}.${pom.packaging}"
-        
-        HARBOR_PROJECT = "poc-arquitetura" //"${PROJECT_NAME}" 
-        HARBOR_IMAGE = "${PROJECT_NAME}-img" 
-        
-        SONAR_PROJECT_KEY = "${PROJECT_NAME}" 
-        SONAR_PROJECT_NAME = "${PROJECT_NAME}" 
-        SONAR_PROJECT_BINARY = "${PROJECT_NAME}/target/classes"
-        SONAR_PROJECT_SOURCE = "${PROJECT_NAME}/src"
-
+        HARBOR_PROJECT = "poc-arquitetura" 
+        RANCHER_NAMESPACE = "poc-arqtec"
         POST_PROD_TIME = "3"
         POST_PROD_UNIT = "MINUTES" // SECONDS, MINUTES, HOURS
     }
@@ -46,20 +41,37 @@ pipeline {
 
     stages {
         stage('Build & Tests') {
-            steps {
-                // IMPORT BY SHARED LIBRARY
-                mavenSharedLib()
+            parallel {
+                stage('Principal project') {
+                    steps {
+                        // IMPORT BY SHARED LIBRARY
+                        mavenSharedLibV2(PRINCIPAL_PROJECT)
+                    }
+                }
+                stage('Sidecar project') {
+                    steps {
+                        // IMPORT BY SHARED LIBRARY
+                        mavenSharedLibV2(SIDECAR_PROJECT)
+                    }
+                }
             }
         }
 
-        stage('Code Quality') {
+        stage('Code Quality for principal project') {
             steps {
                 // IMPORT BY SHARED LIBRARY
-                sonarqubeSharedLib()
+                sonarqubeSharedLibV2(PRINCIPAL_PROJECT)
             }
         }
 
-        stage("Repository Artifacts") {
+        stage('Code Quality for sidecar project') {
+            steps {
+                // IMPORT BY SHARED LIBRARY
+                sonarqubeSharedLibV2(SIDECAR_PROJECT)
+            }
+        }
+
+        stage('Principal project') {
             when {
                 // only master/develop/release branches publishes to Nexus
                 // only master/develop/release branches publishes to Harbor
@@ -69,13 +81,36 @@ pipeline {
                 stage("Publish to Nexus") {
                     steps {
                         // IMPORT BY SHARED LIBRARY
-                        nexusSharedLib()
+                        nexusSharedLibV2(PRINCIPAL_PROJECT)
                     }
                 }
                 stage("Publish to Harbor") {
                     steps {
                         // IMPORT BY SHARED LIBRARY
-                        harborSharedLib()
+                        harborSharedLibV2(PRINCIPAL_PROJECT)
+                    }
+                }
+            }
+        }
+
+        stage('Sidecar project') {
+            when {
+                // only master/develop/release branches publishes to Nexus
+                // only master/develop/release branches publishes to Harbor
+                anyOf { branch 'develop'; branch 'release/*'; branch 'master' }
+            }
+            // for sidecar
+            parallel {
+                stage("Publish to Nexus") {
+                    steps {
+                        // IMPORT BY SHARED LIBRARY
+                        nexusSharedLibV2(SIDECAR_PROJECT)
+                    }
+                }
+                stage("Publish to Harbor") {
+                    steps {
+                        // IMPORT BY SHARED LIBRARY
+                        harborSharedLibV2(SIDECAR_PROJECT)
                     }
                 }
             }
@@ -88,7 +123,8 @@ pipeline {
             }
             steps {
                 // IMPORT BY SHARED LIBRARY
-                kubernetesDEVSharedLib()
+                // TODO
+                kubernetesDeployLib('dev',PROJECTS)
             }
         }
 
@@ -121,7 +157,7 @@ pipeline {
             }
             steps {
                 // IMPORT BY SHARED LIBRARY
-                kubernetesQASharedLib()
+                kubernetesDeployLib('hom',PROJECTS)
             }
         }
 
@@ -143,7 +179,7 @@ pipeline {
             }
             steps {
                 // IMPORT BY SHARED LIBRARY
-                kubernetesPRODSharedLib()
+                kubernetesDeployLib('prod',PROJECTS)
             }
         }
 
@@ -154,7 +190,7 @@ pipeline {
             }
             steps {
                 // IMPORT BY SHARED LIBRARY
-                rollbackLib()
+                rollbackLibV2(PRINCIPAL_PROJECT)
             }
         }
     }
